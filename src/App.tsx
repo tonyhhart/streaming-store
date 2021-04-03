@@ -1,25 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+
+import './style/bootstrap.min.css';
+import './style/global.css';
+import Login from './pages/login';
+import Home from './pages/home';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, StoreState } from './store';
+
 
 function App() {
+  const dispatch = useDispatch();
+
+  const { api_token } = useSelector((state: StoreState) => ({
+    api_token: state.auth.api_token
+  }));
+
+  function onClickLogout() {
+    dispatch(logout())
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+
+        {!!api_token && (
+          <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a className="navbar-brand" href="#">Streaming Store</a>
+            <button onClick={onClickLogout} className="btn btn-link text-white" type="button">
+              Logout
+            </button>
+          </nav>
+        )}
+
+        <Switch>
+          {!api_token ? (
+            <Route path="*">
+              <Login />
+            </Route>
+          ) : (
+            <Route path="/">
+              <Home />
+            </Route>
+          )}
+        </Switch>
+      </div>
+    </Router>
+
   );
 }
 

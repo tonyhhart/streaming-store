@@ -1,19 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import { Provider as StoreProvider } from 'react-redux'
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import store from './store';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { Provider as StoreProvider } from "react-redux";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import store from "./store";
+import { config as dotEnvConfig } from "dotenv";
+
+dotEnvConfig();
 
 ReactDOM.render(
   <React.StrictMode>
-
     <StoreProvider store={store}>
       <App />
     </StoreProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
